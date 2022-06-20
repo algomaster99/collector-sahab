@@ -167,6 +167,19 @@ It does three things:
 2. Find the matched lines
 3. Run collector-sahab over the project to collect runtime context
 
+Before you run `bribe-sahab`, populate config file by following the steps below:
+1. ```
+   cp config_stencil.json config.json
+   ```
+2. Fill `config.json` accordingly. See example:
+   ```json
+   {
+     "collectorJar": "/home/assert/Desktop/assert-achievements/collector-sahab/target/collector-sahab-0.0.1-SNAPSHOT-jar-with-dependencies.jar",
+     "outputDirectory": "/home/assert/Desktop/experiments/drr-as-pr/"
+   }
+   ```
+
+
 ```bash
 usage: Bribe sahab [-h] -p PROJECT -l LEFT -r RIGHT -c CLASS_FILENAME -t TESTS [TESTS ...]
 
