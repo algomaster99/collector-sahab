@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 import shlex
 import subprocess
@@ -7,8 +8,10 @@ from glob import glob
 from revision import REVISION
 from compile_target import compile
 
-COLLECTOR_JAR = "/home/assert/Desktop/assert-achievements/collector-sahab/target/collector-sahab-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
-OUTPUT_DIRECTORY = "/home/assert/Desktop/experiments/drr-as-pr/"
+CONFIG = json.load(open(os.path.join(os.path.dirname(__file__), 'config.json')))
+
+COLLECTOR_JAR = CONFIG.get('collectorJar', None)
+OUTPUT_DIRECTORY = CONFIG.get('outputDirectory', '')
 
 class VerifyDirectory(argparse.Action):
   def __call__(self, parser, namespace, directory, option_string=None):
