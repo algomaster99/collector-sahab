@@ -7,7 +7,10 @@ import static org.hamcrest.core.Is.is;
 import com.sun.jdi.AbsentInformationException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import se.kth.debug.Collector;
@@ -596,5 +599,32 @@ public class CollectorAPITest {
         ReturnData returnData = eventProcessor.getReturnValues().get(0);
 
         assertThat(returnData.getValue(), equalTo("a"));
+    }
+
+//    @Disabled("Shall be fixed after #86")
+    @Test
+    void dataShouldBeCollectedAtSpecifiedBreakpoint()
+            throws FileNotFoundException, AbsentInformationException {
+        // arrange
+        Path pathToFlakyTests = Paths.get("src/test/resources/flaky-tests");
+        Path pathToCommonsLang = pathToFlakyTests.resolve("commons-lang");
+        String[] classpath =
+                TestHelper.getMavenClasspathFromBuildDirectory(pathToCommonsLang.resolve("target"));
+        String[] tests = new String[] {"org.apache.commons.lang3.text.WordUtilsTest::testLANG1397"};
+        File classesAndBreakpoints = pathToFlakyTests.resolve("input.txt").toFile();
+
+        // act
+        EventProcessor eventProcessor =
+                Collector.invoke(
+                        classpath,
+                        tests,
+                        classesAndBreakpoints,
+                        null,
+                        TestHelper.getDefaultOptions());
+
+        // assert
+        assertThat(eventProcessor.getBreakpointContexts().size(), equalTo(1));
+        BreakPointContext breakPoint = eventProcessor.getBreakpointContexts().get(0);
+        assertThat(breakPoint.getLineNumber(), equalTo(272));
     }
 }

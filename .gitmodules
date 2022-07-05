@@ -1,0 +1,3 @@
+[submodule "src/test/resources/flaky-tests/commons-lang"]
+	path = src/test/resources/flaky-tests/commons-lang
+	url = https://github.com/khaes-kth/commons-lang

@@ -11,16 +11,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Set up JDK 11 for running tests
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Style check using spotless
-        run: 'mvn spotless:check'
       - name: Run test phase
         run: |
           ./src/test/resources/sample-maven-project/with-debug.sh
           ./src/test/resources/sample-maven-project-cannot-be-debugged/without-debug.sh
+          ./src/test/resources/flaky-tests/commons-lang.sh
           mvn test
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v1

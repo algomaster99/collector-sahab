@@ -1,0 +1,8 @@
+[
+  {
+    "fileName": "org.apache.commons.lang3.text.WordUtils",
+    "breakpoints": [
+      272
+    ]
+  }
+]
